@@ -66,7 +66,6 @@ class AuxiliaryHeadCIFAR(nn.Module):
     """assuming input size 8x8"""
     super(AuxiliaryHeadCIFAR, self).__init__()
     self.features = nn.Sequential(
-      nn.ReLU(inplace=True),
       nn.AvgPool2d(5, stride=3, padding=0, count_include_pad=False), # image size = 2 x 2
       nn.Conv2d(C, 128, 1, bias=False),
       nn.BatchNorm2d(128),
@@ -89,7 +88,6 @@ class AuxiliaryHeadImageNet(nn.Module):
     """assuming input size 14x14"""
     super(AuxiliaryHeadImageNet, self).__init__()
     self.features = nn.Sequential(
-      nn.ReLU(inplace=True),
       nn.AvgPool2d(5, stride=2, padding=0, count_include_pad=False),
       nn.Conv2d(C, 128, 1, bias=False),
       nn.BatchNorm2d(128),
@@ -119,7 +117,8 @@ class NetworkCIFAR(nn.Module):
     C_curr = stem_multiplier*C
     self.stem = nn.Sequential(
       nn.Conv2d(3, C_curr, 3, padding=1, bias=False),
-      nn.BatchNorm2d(C_curr)
+      nn.BatchNorm2d(C_curr),
+      nn.ReLU(inplace=True)
     )
     
     C_prev_prev, C_prev, C_curr = C_curr, C_curr, C
@@ -169,12 +168,13 @@ class NetworkImageNet(nn.Module):
       nn.ReLU(inplace=True),
       nn.Conv2d(C // 2, C, 3, stride=2, padding=1, bias=False),
       nn.BatchNorm2d(C),
+      nn.ReLU(inplace=True),
     )
 
     self.stem1 = nn.Sequential(
-      nn.ReLU(inplace=True),
       nn.Conv2d(C, C, 3, stride=2, padding=1, bias=False),
       nn.BatchNorm2d(C),
+      nn.ReLU(inplace=True),
     )
 
     C_prev_prev, C_prev, C_curr = C, C, C
