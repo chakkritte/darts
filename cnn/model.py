@@ -69,10 +69,10 @@ class AuxiliaryHeadCIFAR(nn.Module):
       nn.AvgPool2d(5, stride=3, padding=0, count_include_pad=False), # image size = 2 x 2
       nn.Conv2d(C, 128, 1, bias=False),
       nn.BatchNorm2d(128),
-      nn.ReLU(inplace=True),
+      nn.ReLU6(inplace=True),
       nn.Conv2d(128, 768, 2, bias=False),
       nn.BatchNorm2d(768),
-      nn.ReLU(inplace=True)
+      nn.ReLU6(inplace=True)
     )
     self.classifier = nn.Linear(768, num_classes)
 
@@ -91,12 +91,12 @@ class AuxiliaryHeadImageNet(nn.Module):
       nn.AvgPool2d(5, stride=2, padding=0, count_include_pad=False),
       nn.Conv2d(C, 128, 1, bias=False),
       nn.BatchNorm2d(128),
-      nn.ReLU(inplace=True),
+      nn.ReLU6(inplace=True),
       nn.Conv2d(128, 768, 2, bias=False),
       # NOTE: This batchnorm was omitted in my earlier implementation due to a typo.
       # Commenting it out for consistency with the experiments in the paper.
       # nn.BatchNorm2d(768),
-      nn.ReLU(inplace=True)
+      nn.ReLU6(inplace=True)
     )
     self.classifier = nn.Linear(768, num_classes)
 
@@ -165,16 +165,16 @@ class NetworkImageNet(nn.Module):
     self.stem0 = nn.Sequential(
       nn.Conv2d(3, C // 2, kernel_size=3, stride=2, padding=1, bias=False),
       nn.BatchNorm2d(C // 2),
-      nn.ReLU(inplace=True),
+      nn.ReLU6(inplace=True),
       nn.Conv2d(C // 2, C, 3, stride=2, padding=1, bias=False),
       nn.BatchNorm2d(C),
-      nn.ReLU(inplace=True),
+      nn.ReLU6(inplace=True),
     )
 
     self.stem1 = nn.Sequential(
       nn.Conv2d(C, C, 3, stride=2, padding=1, bias=False),
       nn.BatchNorm2d(C),
-      nn.ReLU(inplace=True),
+      nn.ReLU6(inplace=True),
     )
 
     C_prev_prev, C_prev, C_curr = C, C, C
