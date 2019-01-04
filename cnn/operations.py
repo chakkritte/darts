@@ -15,7 +15,7 @@ OPS = {
     nn.Conv2d(C, C, (1,7), stride=(1, stride), padding=(0, 3), bias=False),
     nn.Conv2d(C, C, (7,1), stride=(stride, 1), padding=(3, 0), bias=False),
     nn.BatchNorm2d(C, affine=affine),
-    nn.ReLU(inplace=True),
+    nn.ReLU(inplace=False),
     ),
 }
 
@@ -26,7 +26,7 @@ class ReLUConvBN(nn.Module):
     self.op = nn.Sequential(
       nn.Conv2d(C_in, C_out, kernel_size, stride=stride, padding=padding, bias=False),
       nn.BatchNorm2d(C_out, affine=affine),
-      nn.ReLU(inplace=True)
+      nn.ReLU(inplace=False),
     )
 
   def forward(self, x):
@@ -40,7 +40,7 @@ class DilConv(nn.Module):
       nn.Conv2d(C_in, C_in, kernel_size=kernel_size, stride=stride, padding=padding, dilation=dilation, groups=C_in, bias=False),
       nn.Conv2d(C_in, C_out, kernel_size=1, padding=0, bias=False),
       nn.BatchNorm2d(C_out, affine=affine),
-      nn.ReLU(inplace=True),
+      nn.ReLU(inplace=False),
       )
 
   def forward(self, x):
@@ -59,7 +59,7 @@ class SepConv(nn.Module):
       nn.Conv2d(C_in, C_in, kernel_size=kernel_size, stride=1, padding=padding, groups=C_in, bias=False),
       nn.Conv2d(C_in, C_out, kernel_size=1, padding=0, bias=False),
       nn.BatchNorm2d(C_out, affine=affine),
-      nn.ReLU(inplace=True),
+      nn.ReLU(inplace=False),
       )
 
   def forward(self, x):
@@ -95,7 +95,7 @@ class FactorizedReduce(nn.Module):
     self.conv_1 = nn.Conv2d(C_in, C_out // 2, 1, stride=2, padding=0, bias=False)
     self.conv_2 = nn.Conv2d(C_in, C_out // 2, 1, stride=2, padding=0, bias=False) 
     self.bn = nn.BatchNorm2d(C_out, affine=affine)
-    self.relu = nn.ReLU(inplace=True)
+    self.relu = nn.ReLU(inplace=False)
 
   def forward(self, x):
     x = self.relu(x)
