@@ -118,7 +118,7 @@ class NetworkCIFAR(nn.Module):
     self.stem = nn.Sequential(
       nn.Conv2d(3, C_curr, 3, padding=1, bias=False),
       nn.BatchNorm2d(C_curr),
-      nn.ReLU(inplace=True)
+      nn.ReLU6(inplace=True)
     )
     
     C_prev_prev, C_prev, C_curr = C_curr, C_curr, C
